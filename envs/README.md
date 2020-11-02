@@ -1,7 +1,7 @@
 # Setup your system
 To avoid dependency conflicts, having multiple programming envrinments is the right way to install packages. Therefore, it's recommended to easily install and use Conda package manager - [link](https://docs.anaconda.com/anaconda/install/)!
 
-**QuantSeq FWD with UMIs RNA-seq analysis pipeline** have two envrinments for two set of tasks:
+This pipeline have two envrinments for two set of tasks:
 
 ### 1. Alignment and QC tasks
 #### Make envrinment:
