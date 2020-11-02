@@ -1,15 +1,16 @@
-When you have multiple tasks to analyze a data, then you need to use several packages. To avoid dependency conflicts, having multiple programming envrinments is the right way to install packages carefully. Each envrinment should specify for certain tasks. 
-
-Therefore, it's recommended to easily install and use Conda package manager - [link](https://docs.anaconda.com/anaconda/install/)!
-
 # Setup your system
-Here we have two envrinments:
+To avoid dependency conflicts, having multiple programming envrinments is the right way to install packages. Therefore, it's recommended to easily install and use Conda package manager - [link](https://docs.anaconda.com/anaconda/install/)!
+
+**QuantSeq FWD with UMIs RNA-seq analysis pipeline** have two envrinments for two set of tasks:
+
 ### 1. Alignment and QC tasks
+#### Make envrinment:
 ```
 conda env create -f alignment.yml
 ```
 
 ### 2. Differential expression analysis
+#### Make envrinment:
 ```
 conda env create -f deseq2.yml
 ```
