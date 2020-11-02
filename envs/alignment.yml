@@ -9,9 +9,6 @@ dependencies:
   - star
   - fastqc
   - multiqc
-  - ipykernel
-  - pyensembl
-  - pyfaidx
   - umi_tools
-  - tree
   - cutadapt
+  - ipykernel
