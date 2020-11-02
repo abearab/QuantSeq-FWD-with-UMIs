@@ -1,0 +1,14 @@
+name: alignment
+channels:
+  - python
+  - r
+  - bioconda
+  - conda-forge
+dependencies:
+  - salmon
+  - kallisto
+  - star
+  - fastqc
+  - multiqc
+  - umi_tools
+  - ipykernel

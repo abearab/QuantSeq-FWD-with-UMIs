@@ -1,0 +1,17 @@
+name: deseq2
+channels:
+  - r
+  - bioconda
+  - conda-forge
+dependencies:
+  - bioconductor-deseq2
+  - bioconductor-tximport
+  - bioconductor-genomicfeatures
+  - r-plotly
+  - r-pheatmap
+  - r-ggrepel
+  - r-patchwork
+  - r-ggplot2
+  - r-htmlwidgets
+  - r-tidyverse
+  - r-irkernel
