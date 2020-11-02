@@ -13,7 +13,7 @@ conda env create -f deseq2.yml
 ```
 
 ## Exploratory data analysis
-Jupyter! Make sure to install [Jupyter](https://anaconda.org/anaconda/jupyter) and `nb_conda_kernels` [link](https://anaconda.org/conda-forge/nb_conda_kernels) in the base environment. Using `nb_conda_kernels`, you can have one Jupyter installed in your system and launch different python or R kernels for any created conda environments in a single notebook. 
+Jupyter! Make sure to install [Jupyter](https://anaconda.org/anaconda/jupyter) and [`nb_conda_kernels`](https://anaconda.org/conda-forge/nb_conda_kernels) in the base environment. Using `nb_conda_kernels`, you can have one Jupyter installed in your system and launch different python or R kernels for any created conda environments in a single notebook. 
 
 You only need `ipykernel`, `numpy` and `pandas` from `anaconda` channel in each environment in addition to your own packages. If you have python and R packages together, only after you have R installed through conda, you can install `rpy2` through `pip` - https://pypi.org/project/rpy2/. 
 
