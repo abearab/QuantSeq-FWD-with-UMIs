@@ -4,11 +4,17 @@ channels:
   - r
   - bioconda
   - conda-forge
+  - defaults
 dependencies:
   - salmon
   - kallisto
   - star
   - fastqc
   - multiqc
-  - umi_tools
   - ipykernel
+  - pyensembl
+  - pyfaidx
+  - umi_tools
+  - tree
+  - cutadapt
+prefix: /rumi/shams/abe/anaconda3/envs/alignment
