@@ -118,15 +118,6 @@ nohup ls '<ipage-folder>'/*.txt | parallel -j'<#of-jobs>' -k bash ipage.sh {} &>
 Currently, you can run this module on `rumi` server at UCSF. 
 --> 
 
----
-
-Note: you can run each line with `nohup` in below format to run your command on the background:
-
-
-```bash
-nohup '<program>' '<options>' > '<log-file.txt>' &
-```
-
 # References
 - Andrews S. (2010). FastQC: a quality control tool for high throughput sequence data. Available online at: http://www.bioinformatics.babraham.ac.uk/projects/fastqc
 
