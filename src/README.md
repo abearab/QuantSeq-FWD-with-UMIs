@@ -1,0 +1,128 @@
+- Each module write output files in the subfolders of `'<parent-dir>'`. 
+- STAR and HTSeq command options selected as suggested in the [QuantSeq data analysis manual](https://www.lexogen.com/wp-content/uploads/2020/07/015UG108V0300_QuantSeq-Data-Analysis-Pipeline-on-BlueBee-Platform_2020-07-20.pdf), page 18. 
+- We are using [UMI Tools](https://umi-tools.readthedocs.io/en/latest/QUICK_START.html) with basic options for this pipeline. 
+- Important file/directory outputs from each module, marked as **bold** for your attention. 
+
+# Preprocessing
+## Process raw FASTQ files 
+First, we aim to remove UMI sequences from the Illumina reads using the `umi_tools extract` command. Then, we use [`cutadapt`](https://github.com/marcelm/cutadapt) to remove low quality and short reads. 
+
+```bash
+bash process_fastq.sh '<parent-dir>' '<fastq-dir>' '<#of-jobs>'
+```
+#### OUTPUTS:
+|Location |Description |
+|---|---|
+|`fastq-processed/umi_extract` | FASTQ files after running `umi_tools extract` command on files inside '<fastq-dir>' directory. 
+|**`fastq-processed/trim`** | FASTQ files after running `cutadapt` command on above FASTQ files as the input. 
+|`logs/umi_tools_extract` | Log files from running `umi_tools extract` 
+|`logs/cutadapt_trim` | Log files from running `cutadapt` 
+
+## Alignment
+This command run STAR for all samples in the `'<fastq-dir>'`. To use processed FASTQ files as the input, specify `'<fastq-dir>'` as `fastq-processed/trim`.
+```bash
+bash alignment.sh '<parent-dir>' '<fastq-dir>' '<#of-jobs>'
+```
+#### OUTPUTS:
+|Location |Description |
+|---|---|
+|**`bam`** |Actual results from STAR run in BAM format.
+|`logs/star_aligner`| Log files from STAR run. 
+
+
+## Process BAM files
+Here, `umi_tools dedup` detect duplicate reads in the BAM files. To use BAM files from the alignment module as the input, specify `'<bam-dir>'` as `bam`.
+
+```bash
+bash umi_dedup.sh '<parent-dir>' '<bam-dir>' '<#of-jobs>'
+```
+#### OUTPUTS:
+|Location |Description |
+|---|---|
+|**`bam-processed`** |Actual results from `umi_tools dedup` run in BAM format.
+|`logs/umi_tools_dedup`|Log files from `umi_tools dedup` run. 
+
+
+## Measure gene level counts
+Gene level counts measured using the HTSeq package. To use processed BAM files as input, specify `'<bam-dir>'` as `bam-processed`.
+
+```bash
+bash htseq-count.sh '<parent-dir>' '<bam-dir>' '<count-dir>'
+```
+#### OUTPUTS: 
+if `'<count-dir>'` replaced by `counts`:
+|Location |Description |
+|---|---|
+|`counts` |Actual results from `htseq-count` run.
+
+## Quality controls 
+Fastq files and the pre-processing steps were assessed for quality control using the FastQC and multiQC programs. 
+```bash
+bash fastqc.sh '<parent-dir>' '<fastq-dir>' '<fastQC-dir>' '<#of-jobs>' 
+```
+#### OUTPUTS: 
+if `'<fastQC-dir>'` replaced by `fastQC`:
+|Location |Description |
+|---|---|
+|`fastQC`|Actual results from `fastqc` run.
+|`mutiqc-fastQC`|All data from `mutiqc` run on the above folder.
+|**`mutiqc-fastQC.html`**|HTML report of QCs for all FASTQ files in '<fastq-dir>' folder.
+
+---
+
+Also, this line will provide another HTML report for STAR, Cutadapt, UMI Tools (`extract` and `dedup`) and HTSeq commands into `mutiqc-preprocessing.html` file. 
+```bash
+multiqc htseq-count logs/ -n mutiqc-preprocessing
+```
+
+# Downstream analysis 
+## Count based basic analysis
+HTSeq counts processed in R using the DESeq2 package. First, the `varianceStabilizingTransformation` function from DESeq2 used for the Principal Component Analysis (PCA). The first three PCs were selected for a 3-D scatter plot visualization using the R-Plotly package. For heatmap visualizations, normalized counts extracted from the DESeq object, genes with less than 10 counts in all samples were removed as low expressed genes, and also, normalized across samples (SD = 1, mean ~=0) for each gene. 
+
+```bash
+Rscript DESeq.R '<parent-dir>' '<count-dir>' '<samplesheet.txt>' '<#of-jobs>' 
+```
+#### OUTPUTS: 
+|Location |Description |
+|---|---|
+| `deseq/pca3d` | `plotly` data
+| **`deseq/pca3d.html`** | PCA; Interactive 3D scatter plot for the first 3 PCs.
+| **`deseq/mostVar_Heatmap.pdf`** | Heatmap plot in `pdf` format
+| **`deseq/mostVar_Heatmap.png`** | Heatmap plot in `png` format
+| **`deseq/counts.normalized.txt`** | Raw counts for all samples in a single file. 
+| **`deseq/counts.raw.txt`** | Normalized counts (using DESeq2) for all samples in a single file. 
+
+## Differential expression analysis 
+\[coming soon\]
+## Enrichment analysis 
+\[coming soon\]
+<!-- `'<ipage-folder>'` should contain one or more iPAGE inputs in correct format. It means two column tab seprated table which contain the first column as gene IDs and the second column with numeric valuse such as logFC. 
+Something like this: 
+```
+ENSG00000000003 0.223
+ENSG00000000005	0
+ENSG00000000419	0.094
+ENSG00000000457	0.216
+ENSG00000000460	0.253
+ENSG00000000938	0
+ENSG00000000971	0
+ENSG00000001036	-0.358
+ENSG00000001084	0.523
+ENSG00000001167	0.304
+```
+
+```bash
+nohup ls '<ipage-folder>'/*.txt | parallel -j'<#of-jobs>' -k bash ipage.sh {} &> ipage.out &
+```
+
+Currently, you can run this module on `rumi` server at UCSF. 
+--> 
+
+---
+
+Note: you can run each line with `nohup` in below format to run your command on the background:
+
+
+```bash
+nohup '<program>' '<options>' > '<log-file.txt>' &
+```
