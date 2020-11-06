@@ -72,7 +72,7 @@ if `'<fastQC-dir>'` replaced by `fastQC`:
 
 Also, this line will provide another HTML report for STAR, Cutadapt, UMI Tools (`extract` and `dedup`) and HTSeq commands into `mutiqc-preprocessing.html` file. 
 ```bash
-multiqc htseq-count logs/ -n mutiqc-preprocessing
+multiqc '<count-dir>' logs/ -n mutiqc-preprocessing
 ```
 
 # Downstream analysis 
