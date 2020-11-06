@@ -45,3 +45,15 @@ Note: you can run each line with `nohup` in below format to run your command on 
 ```bash
 nohup '<program>' '<options>' > '<log-file.txt>' &
 ```
+
+# Exploratory data analysis
+Jupyter! Make sure to install [Jupyter](https://anaconda.org/anaconda/jupyter) and [`nb_conda_kernels`](https://anaconda.org/conda-forge/nb_conda_kernels) in the base environment. Using `nb_conda_kernels`, you can have one Jupyter installed in your system and launch different python or R kernels for any created conda environments even in a single notebook. 
+
+You only need `ipykernel`, `numpy` and `pandas` in each environment in addition to your own packages. 
+```bash
+conda install -n <env-name> -c anaconda ipykernel numpy pandas
+```
+### How to use R in Jupyter?
+If you want to use python and R packages together, you can use `rpy2`. After you have R installed through conda, you can install [`rpy2`](https://pypi.org/project/rpy2/) through `pip`.
+
+Instead, you can include R kernel into an envrinment with R packages. So, install [`irkernel`](https://anaconda.org/r/r-irkernel). 
