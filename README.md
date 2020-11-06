@@ -29,7 +29,7 @@ multiqc counts/ logs/ -n mutiqc-preprocessing
 Define a `samplesheet.txt` which contain a tab seprated table to describe your samples. 
 \[coming soon\]
 ```bash
-conda activate deseq
+conda activate deseq2
 ```
 ```bash
 Rscript DESeq.R '<parent-dir>' counts samplesheet.txt '<#of-jobs>' 
