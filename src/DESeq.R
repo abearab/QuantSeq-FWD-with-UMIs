@@ -233,70 +233,70 @@ ggplot_Save(h1,'deseq/mostVar_Heatmap')
 # message ('Part 4: Run the DESeq tests ')
 # message ('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
 
-plot_Volcano <- function(res, lfc.cutoff  = 1,pval.cutoff = 0.05, title=''){
-    res$sig <- as.factor(res$pvalue < pval.cutoff & abs(res$log2FoldChange) > lfc.cutoff)
-    relevel(res$sig, ref=TRUE)
-    ## Volcano plot
-    vol = res %>% ggplot(
-        aes(x=log2FoldChange, y=-log10(pvalue), colour=sig, fill=sig)) +
-        geom_point(aes(color = sig),alpha = 1/10) +
-    #         xlim(c(-20,20)) +
-    #         ylim(c(0,11)) +
-            geom_hline(yintercept=-log10(pval.cutoff), linetype="dashed", alpha = 4/10) +
-            geom_vline(xintercept=lfc.cutoff, linetype="dashed", alpha = 4/10) +
-            geom_vline(xintercept=(-1)*lfc.cutoff, linetype="dashed", alpha = 4/10) +
-            scale_color_manual(values = c("grey", "red")) +
-            theme_bw() + 
-            theme(legend.position="none") +
-            ggtitle (title) + 
-            geom_text_repel(
-                data = subset(res[order(res$pvalue),], sig == TRUE)[1:10,],
-                aes(label = name),
-                size = 3,
-                box.padding = unit(0.35, "lines"),
-                point.padding = unit(0.3, "lines")
-            )
-     return (vol)
-}
+# plot_Volcano <- function(res, lfc.cutoff  = 1,pval.cutoff = 0.05, title=''){
+#     res$sig <- as.factor(res$pvalue < pval.cutoff & abs(res$log2FoldChange) > lfc.cutoff)
+#     relevel(res$sig, ref=TRUE)
+#     ## Volcano plot
+#     vol = res %>% ggplot(
+#         aes(x=log2FoldChange, y=-log10(pvalue), colour=sig, fill=sig)) +
+#         geom_point(aes(color = sig),alpha = 1/10) +
+#     #         xlim(c(-20,20)) +
+#     #         ylim(c(0,11)) +
+#             geom_hline(yintercept=-log10(pval.cutoff), linetype="dashed", alpha = 4/10) +
+#             geom_vline(xintercept=lfc.cutoff, linetype="dashed", alpha = 4/10) +
+#             geom_vline(xintercept=(-1)*lfc.cutoff, linetype="dashed", alpha = 4/10) +
+#             scale_color_manual(values = c("grey", "red")) +
+#             theme_bw() + 
+#             theme(legend.position="none") +
+#             ggtitle (title) + 
+#             geom_text_repel(
+#                 data = subset(res[order(res$pvalue),], sig == TRUE)[1:10,],
+#                 aes(label = name),
+#                 size = 3,
+#                 box.padding = unit(0.35, "lines"),
+#                 point.padding = unit(0.3, "lines")
+#             )
+#      return (vol)
+# }
 
 
-write_Result <- function(res, name_it, col=FALSE, row=FALSE){
-    write.table(res,name_it, sep="\t", quote=FALSE, col.names=col, row.names=row)
-}
+# write_Result <- function(res, name_it, col=FALSE, row=FALSE){
+#     write.table(res,name_it, sep="\t", quote=FALSE, col.names=col, row.names=row)
+# }
 
-get_Result <- function(ddsin, condition, comp1, comp2){
+# get_Result <- function(ddsin, condition, comp1, comp2){
     
-    model = paste(condition,comp1,'vs',comp2, sep='_')
+#     model = paste(condition,comp1,'vs',comp2, sep='_')
 
-    colData(ddsin)[,condition] <- relevel(colData(ddsin)[,condition], ref=comp2)
+#     colData(ddsin)[,condition] <- relevel(colData(ddsin)[,condition], ref=comp2)
     
-    ddsout <- DESeq(ddsin, parallel=TRUE)
+#     ddsout <- DESeq(ddsin, parallel=TRUE)
     
-    res <- results(ddsout, name=model, parallel=TRUE)  %>%
-        data.frame %>% 
-        add_column(name=gene2name[rownames(dds),]) %>%
-        add_column(ensembl=rownames(dds) %>% substr(0, 15))
+#     res <- results(ddsout, name=model, parallel=TRUE)  %>%
+#         data.frame %>% 
+#         add_column(name=gene2name[rownames(dds),]) %>%
+#         add_column(ensembl=rownames(dds) %>% substr(0, 15))
 
-    return (res)
-}
+#     return (res)
+# }
 
 
-mkdir ('ipage')
-mkdir ('deseq/results')
+# mkdir ('ipage')
+# mkdir ('deseq/results')
 
-for (i in c(1:dim(comp)[1]) ){
-    res = NA
-    res = get_Result(ddsHTSeq, 'group', comp$V1[i], comp$V2[i])
+# for (i in c(1:dim(comp)[1]) ){
+#     res = NA
+#     res = get_Result(ddsHTSeq, 'group', comp$V1[i], comp$V2[i])
 
-    name = paste(comp$V1[i], 'vs', comp$V2[i], sep='_')
+#     name = paste(comp$V1[i], 'vs', comp$V2[i], sep='_')
 
-    vol = plot_Volcano(res, title=name)
+#     vol = plot_Volcano(res, title=name)
     
-    ggplot_Save(vol, paste('deseq/results/',name,'.Volcano-plot',sep='') )
+#     ggplot_Save(vol, paste('deseq/results/',name,'.Volcano-plot',sep='') )
     
-    write_Result(res[,c(7,1:6)], paste('deseq/results/',name,'.DESeq-result.txt', sep=''), row=TRUE)
+#     write_Result(res[,c(7,1:6)], paste('deseq/results/',name,'.DESeq-result.txt', sep=''), row=TRUE)
     
-    # Prepare results for running iPAGE:
-    res$log2FoldChange[is.na(res$log2FoldChange)] <- 0
-    write_Result(res [,c('ensembl','log2FoldChange')] %>% remove_rownames, paste('ipage/',name,'.txt',sep=''))
-}
+#     # Prepare results for running iPAGE:
+#     res$log2FoldChange[is.na(res$log2FoldChange)] <- 0
+#     write_Result(res [,c('ensembl','log2FoldChange')] %>% remove_rownames, paste('ipage/',name,'.txt',sep=''))
+# }
