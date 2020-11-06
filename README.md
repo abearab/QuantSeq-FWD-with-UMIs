@@ -11,7 +11,7 @@ cd ./src
 bash process_fastq.sh '<parent-dir>' '<fastq-dir>' '<#of-jobs>'
 ```
 ```bash
-bash alignment.sh '<parent-dir>' '<fastq-dir>' '<#of-jobs>'
+bash alignment.sh '<parent-dir>' fastq-processed/trim '<#of-jobs>'
 ```
 ```bash
 bash umi_dedup.sh '<parent-dir>' bam '<#of-jobs>'
