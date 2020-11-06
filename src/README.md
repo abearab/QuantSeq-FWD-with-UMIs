@@ -5,7 +5,7 @@
 
 # Preprocessing
 ## Process raw FASTQ files 
-First, we aim to remove UMI sequences from the Illumina reads using the `umi_tools extract` command. Then, we use [`cutadapt`](https://github.com/marcelm/cutadapt) to remove low quality and short reads. 
+The 1st 6nt are UMI. So, we aim to remove UMI sequences from the Illumina reads using the [`umi_tools extract`](https://umi-tools.readthedocs.io/en/latest/QUICK_START.html#step-3-extract-the-umis). Then, we use [`cutadapt`](https://github.com/marcelm/cutadapt) with `-u` option to trim 12 nt and also, remove low quality and short reads. 
 
 ```bash
 bash process_fastq.sh '<parent-dir>' '<fastq-dir>' '<#of-jobs>'
