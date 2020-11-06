@@ -5,7 +5,12 @@ Before you run below commands, change `'<#of-jobs>'` to you desired number of th
 ## [Preprocessing](https://github.com/abearab/QuantSeq-FWD-with-UMIs/blob/main/src/README.md#preprocessing)
 ```bash
 conda activate alignment 
+```
+```bash
 cd ./src
+```
+```bash
+bash fastqc.sh '<parent-dir>' '<fastq-dir>' fastQC '<#of-jobs>' 
 ```
 ```bash
 bash process_fastq.sh '<parent-dir>' '<fastq-dir>' '<#of-jobs>'
@@ -18,9 +23,6 @@ bash umi_dedup.sh '<parent-dir>' bam '<#of-jobs>'
 ```
 ```bash
 bash htseq-count.sh '<parent-dir>' bam-processed counts
-```
-```bash
-bash fastqc.sh '<parent-dir>' '<fastq-dir>' fastQC '<#of-jobs>' 
 ```
 ```bash
 multiqc counts/ logs/ -n mutiqc-preprocessing
