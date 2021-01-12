@@ -262,21 +262,21 @@ ggplot_Save(h1,'deseq/mostVar_Heatmap')
 #     write.table(res,name_it, sep="\t", quote=FALSE, col.names=col, row.names=row)
 # }
 
-# get_Result <- function(ddsin, condition, comp1, comp2){
+get_Result <- function(ddsin, condition, comp1, comp2){
     
-#     model = paste(condition,comp1,'vs',comp2, sep='_')
+    model = paste(condition,comp1,'vs',comp2, sep='_')
 
-#     colData(ddsin)[,condition] <- relevel(colData(ddsin)[,condition], ref=comp2)
+    colData(ddsin)[,condition] <- relevel(colData(ddsin)[,condition], ref=comp2)
     
-#     ddsout <- DESeq(ddsin, parallel=TRUE)
+    ddsout <- DESeq(ddsin) #, parallel=TRUE)
     
-#     res <- results(ddsout, name=model, parallel=TRUE)  %>%
-#         data.frame %>% 
-#         add_column(name=gene2name[rownames(dds),]) %>%
-#         add_column(ensembl=rownames(dds) %>% substr(0, 15))
+    res <- results(ddsout, name=model, parallel=TRUE)  %>%
+        data.frame %>% 
+        add_column(name=gene2name[rownames(ddsout),]) %>%
+        add_column(ensembl=rownames(ddsout) %>% substr(0, 15))
 
-#     return (res)
-# }
+    return (res)
+}
 
 
 # mkdir ('ipage')
