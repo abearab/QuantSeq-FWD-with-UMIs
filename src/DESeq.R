@@ -3,7 +3,8 @@ args <- commandArgs(trailingOnly = TRUE)
 PDIR <- args[1]
 countDIR <- args[2]
 tablePATH <- args[3]
-JOBS <- args[4]
+refCOND <- [4]
+JOBS <- args[5]
 
 setwd(PDIR)
 
@@ -70,6 +71,10 @@ ddsHTSeq <- DESeqDataSetFromHTSeqCount(
     directory = countDIR,
     design= ~ condition # or something else
 )
+# make condition column as factor
+sampleTable$condition <- factor(sampleTable$condition)
+sampleTable$condition <- relevel(sampleTable$condition, ref = "M")
+
 
 # run DESeq function 
 dds0 <- DESeq(ddsHTSeq, parallel=TRUE)
