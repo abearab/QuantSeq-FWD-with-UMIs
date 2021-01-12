@@ -117,7 +117,7 @@ widget_file_size <- function(p) {
   message("File is: ", mb," MB")
 }
 
-plotPCA3D <- function (object, color = 'cells', intgroup = 'group', ntop = 5000, returnData = TRUE){
+plotPCA3D <- function (object, intgroup = 'condition', ntop = 5000, returnData = TRUE){
   rv <- rowVars(assay(object))
   select <- order(rv, decreasing = TRUE)[seq_len(min(ntop, length(rv)))]
   pca <- prcomp(t(assay(object)[select, ]))
@@ -200,10 +200,8 @@ zscore = scale(t(counts.normalized[keep,3:ncol(counts.normalized)]))
 data = mostVar(data=t(zscore), n_hits=1000, TRUE)
 
 ann = data.frame(
-    cell=sampleTable$cells, 
-    treatment=sampleTable$treatment, 
-    sorted=sampleTable$sorted, 
-    row.names=sampleTable$sample_ID)
+    condition=sampleTable[,3], 
+    row.names=sampleTable[,1])
 
 
 rownames(ann) <- colnames(data) 
@@ -284,6 +282,7 @@ ggplot_Save(h1,'deseq/mostVar_Heatmap')
 # mkdir ('ipage')
 # mkdir ('deseq/results')
 
+# for multiple comparisons
 # for (i in c(1:dim(comp)[1]) ){
 #     res = NA
 #     res = get_Result(ddsHTSeq, 'group', comp$V1[i], comp$V2[i])
