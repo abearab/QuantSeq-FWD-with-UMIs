@@ -65,16 +65,17 @@ mkdir ('deseq')
 # 3ed and above: the remaining columns are sample metadata which will be stored in colData 
 # read meta table 
 sampleTable <- read.csv( tablePATH, sep="\t" )
+
+# make condition column as factor
+sampleTable$condition <- factor(sampleTable$condition)
+sampleTable$condition <- relevel(sampleTable$condition, ref = refCOND)
+
 # make DESeq Obj. from htseq-counts 
 ddsHTSeq <- DESeqDataSetFromHTSeqCount(
     sampleTable = sampleTable,
     directory = countDIR,
     design= ~ condition # or something else
 )
-# make condition column as factor
-sampleTable$condition <- factor(sampleTable$condition)
-sampleTable$condition <- relevel(sampleTable$condition, ref = "M")
-
 
 # run DESeq function 
 dds0 <- DESeq(ddsHTSeq, parallel=TRUE)
