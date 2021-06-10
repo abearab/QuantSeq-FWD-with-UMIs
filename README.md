@@ -60,7 +60,7 @@ Jupyter! Make sure to install [Jupyter](https://anaconda.org/anaconda/jupyter) a
 conda create -y -n nb-env
 conda activate nb-env
 conda install -y -c anaconda jupyter
-conda install -y -c conda-forge/nb_conda_kernels
+conda install -y -c conda-forge nb_conda_kernels
 ``` 
 Using `nb_conda_kernels`, you can have one Jupyter installed in your system and launch different python or R kernels for any created conda environments even in a single notebook. Therefore, you can run `jupyther notebook` command to launch Jupyther app and then, you can use your notebooks with kernels from different environments.
 
