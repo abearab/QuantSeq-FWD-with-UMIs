@@ -57,7 +57,7 @@ nohup '<program>' '<options>' > '<log-file.txt>' &
 # Exploratory data analysis
 Jupyter! Make sure to install [Jupyter](https://anaconda.org/anaconda/jupyter) and [`nb_conda_kernels`](https://anaconda.org/conda-forge/nb_conda_kernels) in the base environment or build seprate environment for that. For instance:
 ```bash
-conda create -n nb-env
+conda create -y -n nb-env
 conda activate nb-env
 conda install -y -c anaconda jupyter
 conda install -y -c conda-forge/nb_conda_kernels
