@@ -31,7 +31,7 @@ bash alignment.sh '<parent-dir>' '<fastq-dir>' '<#of-jobs>'
 
 
 ## Process BAM files
-Here, `umi_tools dedup` detect duplicate reads in the BAM files. To use BAM files from the alignment module as the input, specify `'<bam-dir>'` as `bam`.
+Here, `[umi_tools dedup](https://umi-tools.readthedocs.io/en/latest/reference/dedup.html)` detect duplicate reads in the BAM files. To use BAM files from the alignment module as the input, specify `'<bam-dir>'` as `bam`.
 
 ```bash
 bash umi_dedup.sh '<parent-dir>' '<bam-dir>' '<#of-jobs>'
